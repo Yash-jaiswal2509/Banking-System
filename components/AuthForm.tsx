@@ -15,23 +15,46 @@ import CustomInput from './CustomInput'
 
 import { authFormSchema } from '@/lib/utils'
 import { Loader } from 'lucide-react'
+import { getLoggedInUser, signUp } from '@/lib/actions/user.actions'
+import { useRouter } from 'next/navigation'
 
 const AuthForm = ({ type }: { type: string }) => {
+    const router = useRouter();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const form = useForm<z.infer<typeof authFormSchema>>({
-        resolver: zodResolver(authFormSchema),
+    // const loggedInUser = getLoggedInUser();
+
+    const formSchema = authFormSchema(type);
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
         defaultValues: {
             email: "",
             password: "",
         },
     })
 
-    function onSubmit(values: z.infer<typeof authFormSchema>) {
-        setLoading(false);
-        console.log(values);
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setLoading(true);
+        try {
+            // sign up with appwrite
+            if (type === "sign-in") {
+
+            }
+
+            if (type === "sign-up") {
+                const newUser = await signUp(data);
+
+                setUser(newUser);
+            }
+
+        } catch (error) {
+
+        }
+
+        console.log(data);
+        setLoading(false);
     }
 
     return (
@@ -64,6 +87,74 @@ const AuthForm = ({ type }: { type: string }) => {
                 <>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                            {type === "sign-up" && (
+                                <>
+                                    <div className='flex gap-4'>
+                                        <CustomInput props={{
+                                            control: form.control,
+                                            name: "firstName",
+                                            placeholder: "Enter your first name",
+                                            label: "First Name"
+                                        }} />
+
+                                        <CustomInput props={{
+                                            control: form.control,
+                                            name: "lastName",
+                                            placeholder: "Enter your last name",
+                                            label: "Last Name"
+                                        }} />
+                                    </div>
+
+
+                                    <CustomInput props={{
+                                        control: form.control,
+                                        name: "address1",
+                                        placeholder: "Enter your specific address",
+                                        label: "Address"
+                                    }} />
+
+                                    <CustomInput props={{
+                                        control: form.control,
+                                        name: "city",
+                                        placeholder: "Enter your city",
+                                        label: "City"
+                                    }} />
+
+                                    <div className='flex gap-4'>
+                                        <CustomInput props={{
+                                            control: form.control,
+                                            name: "state",
+                                            placeholder: "ex: UP",
+                                            label: "State"
+                                        }} />
+
+                                        <CustomInput props={{
+                                            control: form.control,
+                                            name: "postalCode",
+                                            placeholder: "ex: 220119",
+                                            label: "Postal Code"
+                                        }} />
+                                    </div>
+
+                                    <div className='flex gap-4'>
+
+                                        <CustomInput props={{
+                                            control: form.control,
+                                            name: "dateOfBirth",
+                                            placeholder: "DD-MM-YYYY",
+                                            label: "Date of Birth"
+                                        }} />
+
+                                        <CustomInput props={{
+                                            control: form.control,
+                                            name: "ssn",
+                                            placeholder: "ex: 1234",
+                                            label: "SSN"
+                                        }} />
+                                    </div>
+                                </>
+                            )}
+
                             <CustomInput props={{
                                 control: form.control,
                                 name: "email",
