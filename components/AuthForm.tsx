@@ -15,7 +15,7 @@ import CustomInput from './CustomInput'
 
 import { authFormSchema } from '@/lib/utils'
 import { Loader } from 'lucide-react'
-import { getLoggedInUser, signUp } from '@/lib/actions/user.actions'
+import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions'
 import { useRouter } from 'next/navigation'
 
 const AuthForm = ({ type }: { type: string }) => {
@@ -37,10 +37,20 @@ const AuthForm = ({ type }: { type: string }) => {
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setLoading(true);
+
         try {
             // sign up with appwrite
             if (type === "sign-in") {
+                const response = await signIn({
+                    email: data.email,
+                    password: data.password
+                })
 
+                console.log("Response", response);
+
+                if (response) {
+                    router.push("/");
+                }
             }
 
             if (type === "sign-up") {
@@ -50,10 +60,9 @@ const AuthForm = ({ type }: { type: string }) => {
             }
 
         } catch (error) {
-
+            console.error("Error", error);
         }
 
-        console.log(data);
         setLoading(false);
     }
 
