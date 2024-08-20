@@ -9,7 +9,7 @@ export const signIn = async ({ email, password }: signInProps) => {
   try {
     const { account } = await createSessionClient();
     const session = await account.createEmailPasswordSession(email, password);
-    
+
     return parseStringify(session);
   } catch (error) {
     console.error("Error", error);
@@ -53,12 +53,14 @@ export async function getLoggedInUser() {
   }
 }
 
-export const logoutAccount = async() =>{
+export const logoutAccount = async () => {
   try {
-    const {account}  = await createSessionClient();
+    const { account } = await createSessionClient();
 
-    cookies().delete("appwrite-session")
+    cookies().delete("appwrite-session");
+
+    await account.deleteSession("current");
   } catch (error) {
     return null;
   }
-}
+};
