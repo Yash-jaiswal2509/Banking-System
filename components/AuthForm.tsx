@@ -41,6 +41,27 @@ const AuthForm = ({ type }: { type: string }) => {
 
         try {
             // sign up with appwrite
+
+            if (type === "sign-up") {
+                const userData = {
+                    firstName: data.firstName!,
+                    lastName: data.lastName!,
+                    address1: data.address1!,
+                    city: data.city!,
+                    state: data.state!,
+                    postalCode: data.postalCode!,
+                    dateOfBirth: data.dateOfBirth!,
+                    ssn: data.ssn!,
+                    email: data.email!,
+                    password: data.password!
+                }
+
+                const newUser = await signUp(userData);
+                console.log("New User, ", newUser);
+                setUser(newUser);
+            }
+
+
             if (type === "sign-in") {
                 const response = await signIn({
                     email: data.email,
@@ -54,11 +75,6 @@ const AuthForm = ({ type }: { type: string }) => {
                 }
             }
 
-            if (type === "sign-up") {
-                const newUser = await signUp(data);
-
-                setUser(newUser);
-            }
 
         } catch (error) {
             console.error("Error", error);
@@ -89,11 +105,11 @@ const AuthForm = ({ type }: { type: string }) => {
                 </div>
             </header>
 
-            {/* {user ? ( */}
+            {user ? (
                 <div className='flex flex-col gap-4'>
-                    <PlaidLink user = {user} variant = "primary"/>
+                    <PlaidLink user={user} variant="primary" />
                 </div>
-            {/* ) : ( */}
+            ) : (
                 <>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -134,14 +150,14 @@ const AuthForm = ({ type }: { type: string }) => {
                                         <CustomInput props={{
                                             control: form.control,
                                             name: "state",
-                                            placeholder: "ex: UP",
+                                            placeholder: "ex: NY",
                                             label: "State"
                                         }} />
 
                                         <CustomInput props={{
                                             control: form.control,
                                             name: "postalCode",
-                                            placeholder: "ex: 220119",
+                                            placeholder: "ex: 12345",
                                             label: "Postal Code"
                                         }} />
                                     </div>
@@ -151,7 +167,7 @@ const AuthForm = ({ type }: { type: string }) => {
                                         <CustomInput props={{
                                             control: form.control,
                                             name: "dateOfBirth",
-                                            placeholder: "DD-MM-YYYY",
+                                            placeholder: "YYYY-MM-DD",
                                             label: "Date of Birth"
                                         }} />
 
@@ -201,7 +217,7 @@ const AuthForm = ({ type }: { type: string }) => {
                         </Link>
                     </footer>
                 </>
-            {/* )} */}
+            )}
         </div>
     )
 }
