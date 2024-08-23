@@ -1,8 +1,10 @@
 import { formatAmount } from "@/lib/utils"
+import { log } from "console"
 import Image from "next/image"
 import Link from "next/link"
 
 const BankCard = ({ account, userName, showBalance = true }: CreditCardProps) => {
+  log(account);
   return (
     <div className="flex flex-col">
       <Link href="/" className="bank-card">
@@ -12,7 +14,7 @@ const BankCard = ({ account, userName, showBalance = true }: CreditCardProps) =>
               {account.name || userName}
             </h1>
             <p className="font-ibm-plex-serif font-black text-white">
-              {formatAmount(account.currentBalance)}
+              {formatAmount(account.currentBalance * 85)}
             </p>
           </div>
 
