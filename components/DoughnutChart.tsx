@@ -6,7 +6,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DoughnutChart = ({ accounts }: DoughnutChartProps) => {
   const accountNames = accounts.map((account) => account.name);
-  const balances = accounts.map((account) => account.currentBalance);
+  const balances = accounts.map((account) => account.currentBalance * 85);
   const data = {
     datasets: [
       {
@@ -15,7 +15,7 @@ const DoughnutChart = ({ accounts }: DoughnutChartProps) => {
         backgroundColor: ["#0747b6", "#2265d8", "#2f91fa"],
       },
     ],
-    labels: ["SBI", "HDFC", "ICICI"],
+    labels: accountNames,
   };
   return (
     <Doughnut
