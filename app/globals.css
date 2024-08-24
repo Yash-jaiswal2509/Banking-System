@@ -274,6 +274,10 @@
     @apply flex h-screen w-full sticky top-0 items-center justify-end bg-sky-1 max-lg:hidden;
   }
 
+  .auth-asset-image {
+    @apply rounded-2xl border-y-[6px] border-l-[6px] border-bankGradient/50;
+  }
+
   /* Auth Form */
   .auth-form {
     @apply flex min-h-screen w-full max-w-[420px] flex-col justify-center gap-5 py-10 md:gap-8;
