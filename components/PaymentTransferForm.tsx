@@ -70,9 +70,10 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
 
             // create transfer transaction
             if (transfer) {
+                const amount = (Number(data.amount) / 85);
                 const transaction = {
                     name: data.name,
-                    amount: data.amount,
+                    amount: amount.toString(),
                     senderId: senderBank.userId.$id,
                     senderBankId: senderBank.$id,
                     receiverId: receiverBank.userId.$id,

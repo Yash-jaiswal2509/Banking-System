@@ -22,7 +22,7 @@ const Footer = ({ user, type = "desktop" }: FooterProps) => {
                 <p className="text-12 truncate text-sm font-normal text-gray-600">{user.email}</p>
             </div>
 
-            <div className="footer_image ml-2" onClick={handleLogOut}>
+            <div className="footer_image" onClick={handleLogOut}>
                 <Image src="icons/logout.svg" fill alt="Logout" />
             </div>
         </footer>
