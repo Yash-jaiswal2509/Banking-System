@@ -38,7 +38,7 @@ export const getUserInfo = async ({ userId }: getUserInfoProps) => {
 
 export const signIn = async ({ email, password }: signInProps) => {
   try {
-    const { account } = await createSessionClient();
+    const { account } = await createAdminClient();
     const session = await account.createEmailPasswordSession(email, password);
 
     cookies().set("appwrite-session", session.secret, {
@@ -295,3 +295,7 @@ export const getBankByAccountId = async ({
     console.error("An error occurred while getting the bank:", error);
   }
 };
+
+
+
+USER_BANK_ID
