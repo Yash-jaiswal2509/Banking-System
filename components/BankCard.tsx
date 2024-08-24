@@ -2,19 +2,19 @@ import { formatAmount } from "@/lib/utils"
 import { log } from "console"
 import Image from "next/image"
 import Link from "next/link"
+import Copy from "./Copy"
 
 const BankCard = ({ account, userName, showBalance = true }: CreditCardProps) => {
-  log(account);
   return (
     <div className="flex flex-col">
-      <Link href="/" className="bank-card">
+      <Link href={`/transaction-history/?id=${account?.appwriteItemId}`} className="bank-card ">
         <div className="bank-card_content">
           <div>
             <h1 className="text-16 font-semibold text-white">
               {account.name || userName}
             </h1>
             <p className="font-ibm-plex-serif font-black text-white">
-              {formatAmount(account.currentBalance * 85)}
+              {formatAmount(account.currentBalance)}
             </p>
           </div>
 
@@ -23,7 +23,7 @@ const BankCard = ({ account, userName, showBalance = true }: CreditCardProps) =>
               <h1 className="text-12 font-semibold text-white">{userName}</h1>
               <h1 className="text-12 font-semibold text-white">●● / ●●</h1>
             </div>
-            <p className="text-14 font-semibold tracking-[1.1px] text-white">●●●● ●●●● ●●●● <span className="text-16">1234</span></p>
+            <p className="text-14 font-semibold tracking-[1.1px] text-white">●●●● ●●●● ●●●● <span className="text-16">{account?.mask}</span></p>
           </article>
         </div>
 
@@ -32,10 +32,8 @@ const BankCard = ({ account, userName, showBalance = true }: CreditCardProps) =>
           <Image src="/icons/mastercard.svg" width={45} height={32} alt="mastercard" className="ml-5" />
           <Image src="/icons/lines.png" width={316} height={190} alt="Lines" className="absolute top-0 left-0" />
         </div>
-
       </Link>
-
-      {/* Copy function */}
+      {showBalance && <Copy title={account?.sharableId} />}
     </div>
   )
 }

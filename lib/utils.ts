@@ -73,7 +73,7 @@ export function formatAmount(amount: number): string {
     minimumFractionDigits: 2,
   });
 
-  return formatter.format(amount);
+  return formatter.format(amount * 85);
 }
 
 export const parseStringify = (value: any) => JSON.parse(JSON.stringify(value));
